@@ -19,15 +19,15 @@ jobs:
           node-version: 14.x
       - name: npm install
         run: |
-          cd ~/js
+          cd ~/F
           npm install
           npm install cron
           npm install request
-          curl sqxsck.json
+          curl ipinfo.io/json
       
       - name: '【书旗小说】'
         run: |
-          cd ~/js   
+          cd ~/F   
           node Task/sqxs.js
  
 
