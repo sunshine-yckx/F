@@ -141,8 +141,8 @@ async function all()
 	
 		for (let i = 1; i <= CountNumber; i++) 
 		{
-			if ($.getdata(`readck${i}`)) 
-			{	
+			//if ($.getdata(`readck${i}`)) 
+			//{	
 				readckArr = $.getdata(`readck${i}`).split('&&');
 				receivecoinckArr = $.getdata(`receivecoinck${i}`).split('&&');
 				vediogoldprizeckArr= $.getdata(`vediogoldprizeck${i}`).split('&&');
@@ -153,22 +153,28 @@ async function all()
 				ReadTimes=0;
 				vediogold=0;
 				drawgold=0;
-				//阅读
-				await readbook();	
+				
+				if( $.getdata(`readck${i}`) !== '')
+					//阅读
+					await readbook();	
 				
 				//收集阅读金币
 				//if(ReadTimes>0)
+				if( $.getdata(`receivecoinck${i}`) !== '')
 				await receivecoin();
 				
 				//看视频奖励金币
+				if( $.getdata(`vediogoldprizeck${i}`) !== '')
 				await vediogoldprize(0);
 				
 				//看视频奖励抽奖次数
+				if( $.getdata(`vediodrawprizeck${i}`) !== ''&&$.getdata(`drawck${i}`) !== '')
 				await vediodrawprize(0);
 				
 				//个人信息
+				if( $.getdata(`userinfock${i}`) !== '')
 				await userinfo();
-			}
+			//}
 		}
 		
 	}
@@ -280,16 +286,17 @@ function vediodrawprize(k) {
   return new Promise((resolve, reject) => {
   const url = "https://api-access.pangolin-sdk-toutiao.com/api/ad/union/sdk/reward_video/reward/";
 
+
   const request = {
       url: url,
       headers: JSON.parse(vediodrawprizeckArr[1]),
       body: vediodrawprizeckArr[0]
   };
+
 	$.post(request, async(error, request, data) =>{
       try {
 		const result=JSON.parse(data)
-		//$.log(data);
-		
+
 		if(result.cypher==2)
 		{
 			k++;
